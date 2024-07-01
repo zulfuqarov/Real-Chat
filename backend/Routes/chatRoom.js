@@ -101,14 +101,14 @@ router.get("/roomCheckUser/:roomName", async (req, res) => {
   }
 });
 
-router.put("/roomEnter/:roomId", async (req, res) => {
-  const { roomId } = req.params;
+router.put("/roomEnter/:roomName", async (req, res) => {
+  const { roomName } = req.params;
   const token = req.cookies.jwtToken;
   try {
     if (token) {
       const decodedToke = jwt.verify(token, process.env.TOKEN_SECRET_CODE);
       const roomCheck = await room.findOne({
-        _id: roomId,
+        roomName: roomName,
       });
 
       if (roomCheck) {
@@ -116,7 +116,7 @@ router.put("/roomEnter/:roomId", async (req, res) => {
           await roomCheck.updateOne({ $push: { roomUsers: decodedToke.sub } });
           return res.status(200).json({
             message: "You entered the room",
-            roomId: roomId,
+            roomName: roomName,
           });
         } else {
           return res
@@ -135,14 +135,14 @@ router.put("/roomEnter/:roomId", async (req, res) => {
   }
 });
 
-router.put("/roomLeav/:roomId", async (req, res) => {
-  const { roomId } = req.params;
+router.put("/roomLeav/:roomName", async (req, res) => {
+  const { roomName } = req.params;
   const token = req.cookies.jwtToken;
   try {
     if (token) {
       const decodedToke = jwt.verify(token, process.env.TOKEN_SECRET_CODE);
       const roomCheck = await room.findOne({
-        _id: roomId,
+        roomName: roomName,
       });
 
       if (roomCheck) {
@@ -150,7 +150,7 @@ router.put("/roomLeav/:roomId", async (req, res) => {
           await roomCheck.updateOne({ $pull: { roomUsers: decodedToke.sub } });
           return res.status(200).json({
             message: "You left the room",
-            roomId: roomId,
+            roomName: roomName,
           });
         } else {
           return res.status(400).json({ message: "You are not in the  room" });
@@ -203,7 +203,7 @@ router.get("/roomMessage/:roomId", async (req, res) => {
       .find({
         roomId: roomId,
       })
-      .populate("senderId", "userName fullName profilePictute");
+      .populate("senderId", "userName fullName profilePicture");
 
     res.status(200).json({
       message: "roomMessage",
