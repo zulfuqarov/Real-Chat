@@ -6,7 +6,6 @@ import Sign from "../page/Sign"
 import Register from "../page/Register"
 import { ToastContainer } from 'react-toastify';
 import axios from "axios"
-import AllProfileLoading from "../components/AllProfileLoading"
 import JoinRoom from "../components/JoinRoom"
 import ChatRoom from "../components/ChatRoom"
 import Profile from "../components/Profile"
@@ -20,7 +19,6 @@ function App() {
     <BrowserRouter>
       <Context>
         <ToastContainer />
-        <AllProfileLoading />
         <Routes>
           <Route path="/" element={<Home />} >
             <Route index={true} element={<JoinRoom />} />

@@ -76,9 +76,11 @@ router.get("/roomCheckUser/:roomName", async (req, res) => {
   try {
     if (token) {
       const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET_CODE);
-      const roomCheck = await room.findOne({
-        roomName: roomName,
-      });
+      const roomCheck = await room
+        .findOne({
+          roomName: roomName,
+        })
+        .populate("roomAdmin", "userName fullName profilePicture");
       if (roomCheck) {
         if (roomCheck.roomUsers.includes(decodedToken.sub)) {
           return res

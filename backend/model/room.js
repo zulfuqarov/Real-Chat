@@ -12,6 +12,7 @@ const room = mongoose.Schema({
   roomAdmin: {
     type: String,
     required: true,
+    ref: "User",
   },
   roomUsers: {
     type: Array,
