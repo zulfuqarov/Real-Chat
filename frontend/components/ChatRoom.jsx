@@ -30,7 +30,7 @@ const ChatRoom = () => {
             console.log(res.data)
             setenteredRoom(true)
             toast.success(res.data.message)
-            const socket = io.connect('http://localhost:2222');
+            const socket = io.connect('https://cuddly-chainsaw-ggqrrjx6vpwcvpwv-8888.app.github.dev');
             setsocket(socket)
 
             socket.emit("joinRoom", res.data.room.roomName, context.userProfile.fullName)
@@ -47,8 +47,14 @@ const ChatRoom = () => {
         }
     }
 
+    const refreshState = () => {
+        setroomMessage()
+        setroomData(null)
+        setsendingUserMessage([])
+    }
 
     useEffect(() => {
+        refreshState()
         getRomm()
     }, [location.pathname])
 

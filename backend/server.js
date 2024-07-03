@@ -13,7 +13,7 @@ import { initSocket } from "./Routes/chatRoom.js";
 dotenv.config();
 
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: "https://cuddly-chainsaw-ggqrrjx6vpwcvpwv-5173.app.github.dev", 
   credentials: true,
 };
 
@@ -31,6 +31,7 @@ const server = express();
 server.use(cookieParser());
 server.use(bodyParser.json());
 server.use(cors(corsOptions));
+server.options('*', cors(corsOptions)); // Preflight için
 server.use(fileUpload({ useTempFiles: true }));
 
 // mongoDb start
